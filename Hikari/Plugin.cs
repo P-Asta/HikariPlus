@@ -11,7 +11,7 @@ namespace Hikari
         // Meta
         private const string modGUID = "junko.konno.Hikari";
         private const string modName = "Hikari";
-        private const string modVersion = "0.0.1";
+        private const string modVersion = "0.0.2";
 
         // Internal
         private readonly Harmony harmony = new Harmony(modGUID);
@@ -28,7 +28,16 @@ namespace Hikari
 
             logger = BepInEx.Logging.Logger.CreateLogSource(modGUID);
 
-            logger.LogInfo("Konichiwa Sekai!");
+            // Header
+            logger.LogInfo("Konnichiwa Sekai!");
+            logger.LogInfo("Running on version " + modVersion + "!");
+
+            // Config
+            logger.LogInfo("Loading config.");
+            Configuration.Config.Load();
+            logger.LogInfo("Loaded!");
+
+            // Patches
             logger.LogInfo("Applying Patches!");
 
             harmony.PatchAll(typeof(HikariEntry));

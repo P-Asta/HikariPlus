@@ -10,21 +10,18 @@ namespace Hikari.Patches
         // Internal
         private static TextMeshProUGUI healthText;
 
-        // Public
-        public static int currentHealthValue = 100;
-
         // Color
-        private static Color32 ShitsBussin = new Color32(0, byte.MaxValue, 0, byte.MaxValue);                     // 100
-        private static Color32 CapBussin = new Color32(byte.MaxValue / 25, byte.MaxValue, 0, byte.MaxValue);      // 75
-        private static Color32 MidBussin = new Color32(byte.MaxValue / 50, byte.MaxValue / 25, 0, byte.MaxValue); // 50
-        private static Color32 AintBussin = new Color32(byte.MaxValue, 0, 0, byte.MaxValue);                      // 25
+        private static Color32 ShitsBussin = new Color32(0, 255, 0, 255);  // 100%
+        private static Color32 CapBussin = new Color32(160, 255, 0, 255);  // 75%
+        private static Color32 MidBussin = new Color32(255, 255, 0, 255);  // 50%
+        private static Color32 AintBussin = new Color32(255, 0, 0, 255);   // 25%
 
         // FNs
         [HarmonyPatch("Start")]
         [HarmonyPrefix]
         static void Start(ref HUDManager __instance)
         {
-            GameObject healthObject = new GameObject(typeof(HealthDisplay).ToString());
+            GameObject healthObject = new GameObject("Hikari.Health.Display");
             healthObject.AddComponent<RectTransform>();
 
             healthText = healthObject.AddComponent<TextMeshProUGUI>();
@@ -69,7 +66,7 @@ namespace Hikari.Patches
 
             healthText.text = $"{health} HP";
 
-            // THIS IS FUCKING RETARDED BUT WHATEVER ITS 4AM I COULDNT BE ARSED TO THINK
+            // TODO: Fix that dumbass if stmts
         }
     }
 }

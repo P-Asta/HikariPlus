@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Hikari.Configuration;
 using TMPro;
 using UnityEngine;
 
@@ -7,21 +8,21 @@ namespace Hikari.Patches
     [HarmonyPatch(typeof(HUDManager))]
     internal class Crosshair
     {
-
-        // FNs
+        // Patch
         [HarmonyPatch("Start")]
         [HarmonyPrefix]
         static void Start(ref HUDManager __instance)
         {
-            GameObject crossHairObject = new GameObject("Hikari.Crosshair.Hijack");
+
+            GameObject crossHairObject = new GameObject("Hikari.Crosshair.Display");
             crossHairObject.AddComponent<RectTransform>();
 
             TextMeshProUGUI crossHairText = crossHairObject.AddComponent<TextMeshProUGUI>();
             crossHairText.font = __instance.weightCounter.font;
-            crossHairText.fontSize = 32;
-            crossHairText.text = "-  +  -";
+            crossHairText.fontSize = 32 * Config.CrossHairSize;
+            crossHairText.text = Config.CrossHairText;
             crossHairText.alignment = TextAlignmentOptions.Center;
-            crossHairText.color = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
+            crossHairText.color = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, (byte)(255f * Config.CrossHairAlpha));
             crossHairText.enabled = true;
 
             RectTransform crossHairTransform = crossHairText.rectTransform;

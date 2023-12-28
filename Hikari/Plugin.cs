@@ -11,7 +11,7 @@ namespace Hikari
         // Meta
         private const string modGUID = "junko.konno.Hikari";
         private const string modName = "Hikari";
-        private const string modVersion = "0.0.2";
+        private const string modVersion = "0.0.3";
 
         // Internal
         private readonly Harmony harmony = new Harmony(modGUID);

@@ -28,6 +28,8 @@ namespace Hikari.Patches
             crossHairText.text = Config.CrossHairText;
             crossHairText.alignment = TextAlignmentOptions.Center;
             crossHairText.color = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, (byte)(255f * Config.CrossHairAlpha));
+            crossHairText.outlineColor = Color.black;
+            crossHairText.outlineWidth = 32 * Config.CrossHairSize;
             crossHairText.enabled = true;
 
             crossHairTransform = crossHairText.rectTransform;

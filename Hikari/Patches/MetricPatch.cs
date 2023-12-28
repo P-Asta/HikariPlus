@@ -10,8 +10,13 @@ namespace Hikari.Patches
     {
         [HarmonyPatch("Update")]
         [HarmonyPostfix]
-        static void patchMetricPostUpdate(ref TextMeshProUGUI ___weightCounter, ref Animator ___weightCounterAnimator)
+        static void patchMetricPostUpdate(ref HUDManager __instance, ref TextMeshProUGUI ___weightCounter, ref Animator ___weightCounterAnimator)
         {
+            if (GameNetworkManager.Instance == null || GameNetworkManager.Instance.localPlayerController == null || GameNetworkManager.Instance.localPlayerController == null)
+            {
+                return;
+            }
+
             if (___weightCounter != null && ___weightCounterAnimator != null)
             {
                 float weight_lb = Mathf.RoundToInt(Mathf.Clamp(GameNetworkManager.Instance.localPlayerController.carryWeight - 1f, 0f, 100f) * 105f);

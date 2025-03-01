@@ -24,12 +24,34 @@ namespace Hikari.Patches
 
             crossHairText = crossHairObject.AddComponent<TextMeshProUGUI>();
             crossHairText.font = __instance.weightCounter.font;
-            crossHairText.fontSize = 32 * Config.CrossHairSize;
+            crossHairText.fontSize = 32 * (Config.CrossHairSize);
             crossHairText.text = Config.CrossHairText;
             crossHairText.alignment = TextAlignmentOptions.Center;
-            crossHairText.color = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, (byte)(255f * Config.CrossHairAlpha));
-            crossHairText.outlineColor = Color.black;
-            crossHairText.outlineWidth = 32 * Config.CrossHairSize;
+            crossHairText.color = new Color32((byte)(Config.CrossHairRed), (byte)(Config.CrossHairGreen), (byte)(Config.CrossHairBlue), (byte)(255f * Config.CrossHairAlpha));
+            if (Config.CrossHairOutlineWidth != 0)
+            {
+                Material mat = crossHairText.fontSharedMaterial;
+
+                // 기존 FaceDilate 값 (너무 크면 박스 모양이 생김)
+                mat.SetFloat(ShaderUtilities.ID_FaceDilate, Mathf.Clamp(Config.CrossHairOutlineWidth, -1f, 1f));
+
+                // 아웃라인 색상 반영
+                Color outlineColor = new Color32((byte)Config.CrossHairOutlineRed,
+                                                (byte)Config.CrossHairOutlineGreen,
+                                                (byte)Config.CrossHairOutlineBlue,
+                                                (byte)(255f * Config.CrossHairAlpha));
+
+                crossHairText.outlineColor = outlineColor;
+                mat.SetColor(ShaderUtilities.ID_OutlineColor, outlineColor); // 추가 설정
+
+                // 불필요한 Underlay 제거
+                mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetX, 0f);
+                mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, 0f);
+                mat.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0f);
+                mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0, 0, 0, 0)); // 완전 투명하게 설정
+            }
+
+
             crossHairText.enabled = true;
 
             crossHairTransform = crossHairText.rectTransform;
